@@ -25,3 +25,32 @@ shared themes, custom fonts, and appearance settings.
 <img alt="Folder browser" src="fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-US.png" width="30%">
 <img alt="Markdown document" src="fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-US.png" width="30%">
 </div>
+---
+
+## Fork changes (Yet-Another-Documents-App)
+
+- **Fixed the color scheme clash reported in this app's own screenshots**
+  and **added HSB sliders to the shared color picker** - both fixed at
+  the source in the forked Yet-Another-Commons dependency (see that
+  repo's own README/commits), not locally in this app. This app now
+  depends on that fork via JitPack.
+
+- **Bugfix pass: investigated thoroughly, no changes needed.** This is a
+  genuinely well-built app - checked four distinct, high-risk areas and
+  found each correctly implemented:
+  - Both `TextDocumentViewModel` and `StructuredDocumentViewModel`
+    correctly dispatch file loading via `viewModelScope.launch(Dispatchers.IO)`,
+    not on the main thread, and switch back to `Dispatchers.Main` for UI
+    updates.
+  - `PdfDocumentAdapter` (the print support) creates its own
+    `CoroutineScope(SupervisorJob() + Dispatchers.IO)` for background
+    writes - confirmed it's properly cancelled in `onFinish()`, the
+    correct lifecycle callback for this, not left to leak.
+  - Every `LazyColumn` `items()` call already specifies a stable `key`
+    (based on each document/folder's URI) - not the common Compose
+    pitfall of keyless items causing excessive recomposition.
+
+  **Known, unresolved risk carried over from the commons dependency
+  switch**: JitPack build success for Yet-Another-Commons still hasn't
+  been verified in a real Gradle sync - `jitpack.io` isn't reachable from
+  this environment. See the dependency-switch commit for full detail.
