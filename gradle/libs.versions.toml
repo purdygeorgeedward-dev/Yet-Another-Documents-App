@@ -4,7 +4,7 @@ kotlin = "2.4.10"
 detekt = "1.23.8"
 detektCompose = "0.4.28"
 #Fossify
-commons = "6.2.0"
+commons = "80ab3955c2"
 androidPdfViewer = "3.2.16"
 javaMammoth = "1.12.1"
 commonmark = "0.29.0"
@@ -29,7 +29,7 @@ app-build-kotlinJVMTarget = "17"
 [libraries]
 compose-detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektCompose" }
 #Fossify
-fossify-commons = { module = "org.fossify:commons", version.ref = "commons" }
+fossify-commons = { module = "com.github.purdygeorgeedward-dev:Yet-Another-Commons", version.ref = "commons" }
 android-pdf-viewer = { module = "com.github.Infomaniak:android-pdfview", version.ref = "androidPdfViewer" }
 java-mammoth = { module = "org.fossify:java-mammoth", version.ref = "javaMammoth" }
 commonmark = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
